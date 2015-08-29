@@ -37,6 +37,7 @@ namespace CommandParser
                     AddParametersToPending(parameters, commandManager);
                 }
             }
+            if (args.Length == 0) ValidateCommand("/?", commandManager);
             commandManager.RunAllCommands();
 
         }
