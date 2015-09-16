@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace CommandParser
+namespace CommandParser.Commands
 {
     public class HelpCommand:Command
     {

@@ -16,7 +16,7 @@
       </ol>
       Then navigate to CommandParser folder with source-code files and run next command:
       <pre><code>
-        csc /out:CommandParser.exe Program.cs Command.cs CommandManager.cs
+        csc /out:CommandParser.exe /recurse:*.cs
       </code></pre>
       In the same folder you'll get your executable file.
     </li>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CommandParser
+namespace CommandParser.Commands
 {
     public class PingCommand : Command
     {
