@@ -1,44 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
-using System.Text;
 
 namespace CommandParser
 {
-    enum Commands
-    {
-        Initial,
-        Unknown,
-        Help,
-        PrintTable,
-        Ping,
-        PrintMessage
-    }
-
     class Program
     {
         static void Main(string[] args)
         {
             var commandManager = new CommandManager();
             var parameters = new List<string>();
-            for (int i = 0; i < args.Length; i++)
+            var input = args;
+            while (true)
             {
-                if (IsCommand(args[i]))
+                for (int i = 0; i < input.Length; i++)
                 {
-                    if (commandManager.PendingCommand != null)
+                    if (IsCommand(input[i]))
+                    {
+                        if (commandManager.PendingCommand != null)
+                            AddParametersToPending(parameters, commandManager);
+                        if (!ValidateCommand(input[i], commandManager)) return;
+                    }
+                    else
+                    {
+                        parameters.Add(input[i]);
+                        if (i != input.Length - 1 || commandManager.PendingCommand == null) continue;
                         AddParametersToPending(parameters, commandManager);
-                    if (!ValidateCommand(args[i], commandManager)) return;
+                    }
                 }
-                else
-                {
-                    parameters.Add(args[i]);
-                    if (i != args.Length - 1 || commandManager.PendingCommand == null) continue;
-                    AddParametersToPending(parameters, commandManager);
-                }
+                if (input.Length == 0) ValidateCommand("/?", commandManager);
+                commandManager.RunAllCommands();
+                Console.Write("\nCommandParser>>");
+                input = Console.ReadLine().Split(' ');
+
             }
-            if (args.Length == 0) ValidateCommand("/?", commandManager);
-            commandManager.RunAllCommands();
 
         }
 
